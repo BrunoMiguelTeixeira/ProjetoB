@@ -12,20 +12,22 @@
 #define PRE_64      64
 #define PRE_256     256
 
-struct TimerConfig timer1 = {0,0,0,0,0};
-struct TimerConfig timer2 = {0,0,0,0,0};
-struct TimerConfig timer3 = {0,0,0,0,0};
-struct TimerConfig timer4 = {0,0,0,0,0};
-struct TimerConfig timer5 = {0,0,0,0,0};
+struct TimerConfig timer1 = {0,0,0,0};
+struct TimerConfig timer2 = {0,0,0,0};
+struct TimerConfig timer3 = {0,0,0,0};
+struct TimerConfig timer4 = {0,0,0,0};
+struct TimerConfig timer5 = {0,0,0,0};
 
 // Timer 1 configuration
-void ConfigTimer1(uint32_t targetFreq, uint8_t interrupt){
+void ConfigTimer1(uint32_t targetFreq){
     
     uint16_t prescaler = 0;
     uint32_t fout_presc = 0;
 
     T1CON = 0;                      // Clear Timer 1 configuration
-
+    IFS0bits.T1IF = 0;          // Clear Timer 1 interrupt flag
+    IPC1bits.T1IP = 5;          // Set Timer 1 interrupt priority
+    IEC0bits.T1IE = 0;          // Enable Timer 1 interrupt
     // ----- Automatic calculation of the values for the Timer 1 configuration -----
     prescaler = PBCLOCK / ((65535+1) * targetFreq); // Calculate the prescaler value
 
@@ -39,17 +41,10 @@ void ConfigTimer1(uint32_t targetFreq, uint8_t interrupt){
     // -----------------------------------------------------------------------------
 
     PR1 = (fout_presc / targetFreq) - 1;  // Calculate the period register value
-    
-    if(interrupt == 1){
-        IFS0bits.T1IF = 0;          // Clear Timer 1 interrupt flag
-        IPC1bits.T1IP = 5;          // Set Timer 1 interrupt priority
-        IEC0bits.T1IE = 1;          // Enable Timer 1 interrupt
-    }
 
     timer1.prescaler = prescaler;
     timer1.targetFreq = targetFreq;
     timer1.PR = PR1;
-    timer1.interrupt = interrupt;
     timer1.timer32bit = 0;
 }
 
@@ -76,13 +71,16 @@ struct TimerConfig GetTimer1Config(){
 
 
 // Timer 2 configuration
-void ConfigTimer2(uint32_t targetFreq, uint8_t interrupt, uint8_t timer32bit){
+void ConfigTimer2(uint32_t targetFreq, uint8_t timer32bit){
     
     uint16_t prescaler = 0;
     uint32_t fout_presc = 0;
 
     T2CON = 0;                  // Clear Timer 2 configuration
     T3CON = 0;                  // Stop any 16-bit Timer3 operation
+    IFS0bits.T2IF = 0;          // Clear Timer 2 interrupt flag
+    IPC2bits.T2IP = 5;          // Set Timer 2 interrupt priority
+    IEC0bits.T2IE = 0;          // Enable Timer 2 interrupt
 
     if(timer32bit == 1){
         T2CONbits.T32 = 1;          // Enable 32-bit Timer 2 operation
@@ -111,16 +109,9 @@ void ConfigTimer2(uint32_t targetFreq, uint8_t interrupt, uint8_t timer32bit){
 
     PR2 = (fout_presc / targetFreq) - 1;  // Calculate the period register value
 
-    if(interrupt == 1){
-        IFS0bits.T2IF = 0;          // Clear Timer 2 interrupt flag
-        IPC2bits.T2IP = 5;          // Set Timer 2 interrupt priority
-        IEC0bits.T2IE = 1;          // Enable Timer 2 interrupt
-    }
-
     timer2.prescaler = prescaler;
     timer2.targetFreq = targetFreq;
     timer2.PR = PR2;
-    timer2.interrupt = interrupt;
     timer2.timer32bit = timer32bit;
 }
 
@@ -147,12 +138,15 @@ struct TimerConfig GetTimer2Config(){
 
 
 // Timer 3 configuration
-void ConfigTimer3(uint32_t targetFreq, uint8_t interrupt){
+void ConfigTimer3(uint32_t targetFreq){
         
     uint16_t prescaler = 0;
     uint32_t fout_presc = 0;
 
     T3CON = 0;                  // Clear Timer 3 configuration
+    IFS0bits.T3IF = 0;          // Clear Timer 3 interrupt flag
+    IPC3bits.T3IP = 5;          // Set Timer 3 interrupt priority
+    IEC0bits.T3IE = 0;          // Enable Timer 3 interrupt
 
     // ----- Automatic calculation of the values for the Timer 3 configuration -----
     prescaler = PBCLOCK / ((65535+1) * targetFreq); // Calculate the prescaler value
@@ -172,16 +166,9 @@ void ConfigTimer3(uint32_t targetFreq, uint8_t interrupt){
 
     PR3 = (fout_presc / targetFreq) - 1;  // Calculate the period register value
 
-    if(interrupt == 1){
-        IFS0bits.T3IF = 0;          // Clear Timer 3 interrupt flag
-        IPC3bits.T3IP = 5;          // Set Timer 3 interrupt priority
-        IEC0bits.T3IE = 1;          // Enable Timer 3 interrupt
-    }
-
     timer3.prescaler = prescaler;
     timer3.targetFreq = targetFreq;
     timer3.PR = PR3;
-    timer3.interrupt = interrupt;
     timer3.timer32bit = 0;
 }
 
@@ -207,13 +194,16 @@ struct TimerConfig GetTimer3Config(){
 }
 
 // Timer 4 configuration
-void ConfigTimer4(uint32_t targetFreq, uint8_t interrupt, uint8_t timer32bit){
+void ConfigTimer4(uint32_t targetFreq, uint8_t timer32bit){
     
     uint16_t prescaler = 0;
     uint32_t fout_presc = 0;
 
     T4CON = 0;                  // Clear Timer 4 configuration
     T5CON = 0;                  // Stop any 16-bit Timer5 operation
+    IFS0bits.T4IF = 0;          // Clear Timer 4 interrupt flag
+    IPC4bits.T4IP = 5;          // Set Timer 4 interrupt priority
+    IEC0bits.T4IE = 0;          // Enable Timer 4 interrupt
     
     if(timer32bit == 1){
         T4CONbits.T32 = 1;          // Enable 32-bit Timer 4 operation
@@ -241,17 +231,10 @@ void ConfigTimer4(uint32_t targetFreq, uint8_t interrupt, uint8_t timer32bit){
     // -----------------------------------------------------------------------------
 
     PR4 = (fout_presc / targetFreq) - 1;  // Calculate the period register value
-
-    if(interrupt == 1){
-        IFS0bits.T4IF = 0;          // Clear Timer 4 interrupt flag
-        IPC4bits.T4IP = 5;          // Set Timer 4 interrupt priority
-        IEC0bits.T4IE = 1;          // Enable Timer 4 interrupt
-    }
-
+    
     timer4.prescaler = prescaler;
     timer4.targetFreq = targetFreq;
     timer4.PR = PR4;
-    timer4.interrupt = interrupt;
     timer4.timer32bit = timer32bit;
 }
 
@@ -274,12 +257,15 @@ void ClearIntFlagTimer4(){
 
 
 // Timer 5 configuration
-void ConfigTimer5(uint32_t targetFreq, uint8_t interrupt){
+void ConfigTimer5(uint32_t targetFreq){
     
     uint16_t prescaler = 0;
     uint32_t fout_presc = 0;
 
     T5CON = 0;                  // Clear Timer 5 configuration
+    IFS0bits.T5IF = 0;          // Clear Timer 5 interrupt flag
+    IPC5bits.T5IP = 5;          // Set Timer 5 interrupt priority
+    IEC0bits.T5IE = 0;          // Enable Timer 5 interrupt
 
     // ----- Automatic calculation of the values for the Timer 5 configuration -----
     prescaler = PBCLOCK / ((65535+1) * targetFreq); // Calculate the prescaler value
@@ -298,17 +284,9 @@ void ConfigTimer5(uint32_t targetFreq, uint8_t interrupt){
     // -----------------------------------------------------------------------------
 
     PR5 = (fout_presc / targetFreq  ) - 1;  // Calculate the period register value
-
-    if(interrupt == 1){
-        IFS0bits.T5IF = 0;          // Clear Timer 5 interrupt flag
-        IPC5bits.T5IP = 5;          // Set Timer 5 interrupt priority
-        IEC0bits.T5IE = 1;          // Enable Timer 5 interrupt
-    }
-
     timer5.prescaler = prescaler;
     timer5.targetFreq = targetFreq;
     timer5.PR = PR5;
-    timer5.interrupt = interrupt;
     timer5.timer32bit = 0;
 }
 

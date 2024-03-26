@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c adc.c pwm.c timer.c uart.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c adc.c pwm.c timer.c uart.c ../TEST/TEST.X/menu.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/uart.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/pwm.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/uart.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/_ext/8723382/menu.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/pwm.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/uart.o.d ${OBJECTDIR}/_ext/8723382/menu.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/uart.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/_ext/8723382/menu.o
 
 # Source Files
-SOURCEFILES=main.c adc.c pwm.c timer.c uart.c
+SOURCEFILES=main.c adc.c pwm.c timer.c uart.c ../TEST/TEST.X/menu.c
 
 
 
@@ -131,6 +131,12 @@ ${OBJECTDIR}/uart.o: uart.c  .generated_files/flags/default/15b0098a6c182c027c18
 	@${RM} ${OBJECTDIR}/uart.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/uart.o.d" -o ${OBJECTDIR}/uart.o uart.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
+${OBJECTDIR}/_ext/8723382/menu.o: ../TEST/TEST.X/menu.c  .generated_files/flags/default/7cd0badb2c2e8859ed5f4cd414dbfb7cf2cafeca .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}/_ext/8723382" 
+	@${RM} ${OBJECTDIR}/_ext/8723382/menu.o.d 
+	@${RM} ${OBJECTDIR}/_ext/8723382/menu.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/_ext/8723382/menu.o.d" -o ${OBJECTDIR}/_ext/8723382/menu.o ../TEST/TEST.X/menu.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	
 else
 ${OBJECTDIR}/main.o: main.c  .generated_files/flags/default/71f3373a4621d4beaf06365727cbf773b4651380 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
@@ -161,6 +167,12 @@ ${OBJECTDIR}/uart.o: uart.c  .generated_files/flags/default/8164e1ee3afdc76234f9
 	@${RM} ${OBJECTDIR}/uart.o.d 
 	@${RM} ${OBJECTDIR}/uart.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/uart.o.d" -o ${OBJECTDIR}/uart.o uart.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	
+${OBJECTDIR}/_ext/8723382/menu.o: ../TEST/TEST.X/menu.c  .generated_files/flags/default/61bad4cdb402063e6560d048c362b5d887fb9d23 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}/_ext/8723382" 
+	@${RM} ${OBJECTDIR}/_ext/8723382/menu.o.d 
+	@${RM} ${OBJECTDIR}/_ext/8723382/menu.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/_ext/8723382/menu.o.d" -o ${OBJECTDIR}/_ext/8723382/menu.o ../TEST/TEST.X/menu.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
 endif
 

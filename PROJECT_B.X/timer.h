@@ -16,7 +16,6 @@ struct TimerConfig{
     uint16_t prescaler;     /**< Prescaler used for this specific timer. */
     uint32_t targetFreq;    /**< Target frequency given by the user. */
     uint32_t PR;            /**< PR value automatically calculated by the function. */
-    uint8_t interrupt;      /**< Interrupt flag: 1 -> Interrupts enabled; 0 -> Interrupts disabled. */
     uint8_t timer32bit;     /**< Timer32bit flag: 1 -> 32 bit Timer; 0 -> 16 bit Timer. */
 }; 
 
@@ -34,9 +33,8 @@ extern struct TimerConfig timer5;   /**< Timer 5 Config struct. */
  * storing these values inside the TimerConfig struct.
  *
  * @param targetFreq: Target frequency given by the user.
- * @param interrupt: Interrupt flag: 1 -> Interrupts enabled; 0 -> Interrupts disabled.
  */
-void ConfigTimer1(uint32_t targetFreq, uint8_t interrupt);
+void ConfigTimer1(uint32_t targetFreq);
 
 /**
  * Timer 2 Config function
@@ -46,10 +44,9 @@ void ConfigTimer1(uint32_t targetFreq, uint8_t interrupt);
  * storing these values inside the TimerConfig struct.
  *
  * @param targetFreq: Target frequency given by the user.
- * @param interrupt: Interrupt flag: 1 -> Interrupts enabled; 0 -> Interrupts disabled.
  * @param timer32bit: Timer32bit flag: 1 -> 32 bit Timer; 0 -> 16 bit Timer.
  */
-void ConfigTimer2(uint32_t targetFreq, uint8_t interrupt, uint8_t timer32bit);
+void ConfigTimer2(uint32_t targetFreq, uint8_t timer32bit);
 
 /**
  * Timer 3 Config function
@@ -59,9 +56,8 @@ void ConfigTimer2(uint32_t targetFreq, uint8_t interrupt, uint8_t timer32bit);
  * storing these values inside the TimerConfig struct.
  *
  * @param targetFreq: Target frequency given by the user.
- * @param interrupt: Interrupt flag: 1 -> Interrupts enabled; 0 -> Interrupts disabled.
  */
-void ConfigTimer3(uint32_t targetFreq, uint8_t interrupt);
+void ConfigTimer3(uint32_t targetFreq);
 
 /**
  * Timer 4 Config function
@@ -71,10 +67,9 @@ void ConfigTimer3(uint32_t targetFreq, uint8_t interrupt);
  * storing these values inside the TimerConfig struct.
  *
  * @param targetFreq: Target frequency given by the user.
- * @param interrupt: Interrupt flag: 1 -> Interrupts enabled; 0 -> Interrupts disabled.
  * @param timer32bit: Timer32bit flag: 1 -> 32 bit Timer; 0 -> 16 bit Timer.
  */
-void ConfigTimer4(uint32_t targetFreq, uint8_t interrupt, uint8_t timer32bit);
+void ConfigTimer4(uint32_t targetFreq, uint8_t timer32bit);
 
 /**
  * Timer 5 Config function
@@ -84,9 +79,8 @@ void ConfigTimer4(uint32_t targetFreq, uint8_t interrupt, uint8_t timer32bit);
  * storing these values inside the TimerConfig struct.
  *
  * @param targetFreq: Target frequency given by the user.
- * @param interrupt: Interrupt flag: 1 -> Interrupts enabled; 0 -> Interrupts disabled.
  */
-void ConfigTimer5(uint32_t targetFreq, uint8_t interrupt);
+void ConfigTimer5(uint32_t targetFreq);
 
 /**
  * Start Timer 1 function

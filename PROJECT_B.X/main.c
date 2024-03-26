@@ -4,6 +4,7 @@
 #include "adc.h"
 #include "timer.h"
 #include "pwm.h"
+#include "menu.h"
 #include <sys/attribs.h>
 #include <xc.h>
 #include <stdio.h>
@@ -57,72 +58,68 @@ int main(void){
     ADC_enable();
     /* ------------------------- */
     /* ------- SETUP TIMERS & PWM ------- */
-    ConfigTimer1(200,1);
-    //ConfigTimer2(PWM_FREQ_HZ, 1, 0);    // Output 
-    //ConfigTimer3(SAMPL_FREQ_HZ, 1);     // Input     
+    ConfigTimer1(1);
+    ConfigTimer2(PWM_FREQ_HZ, 0);    // Output 
+    ConfigTimer3(SAMPL_FREQ_HZ);     // Input     
     StartTimer1();
-    //StartTimer2();
-    //StartTimer3();             
-    //ConfigPWM(ocChannel,2,50);        // OCx, Timer2, 50% duty cycle
+    StartTimer2();
+    StartTimer3();             
+    ConfigPWM(ocChannel,2,50);        // OCx, Timer2, 50% duty cycle
     /* ---------------------------------- */
      /* ------- VARIABLES ------- */
     uint8_t choice = 0;     //Used for the Case option
     uint8_t Temp=10;        //Variable to hold the temperature value.
     uint8_t UserInput;          //Variable to hold the input integer.
-    uint8_t Value;          //Variable to hold the sequence of numbers.
-    uint8_t OptionChoice;   //Variable to identify if its to write a menu choice or value
+    int Value=0;          //Variable to hold the sequence of numbers.
+    int Total=-1;
+    uint8_t OptionChoice=1;   //Variable to identify if its to write a menu choice or value
     uint8_t DesiredLoc;     //Variable to identify which allowed variable the user wants to alter.
+    PutStringn("Start!");
     while(1){
-        //PutStringn("Problem Timer?");
-        if(IFS0bits.T1IF==1){
-            Temp=Temp+1;
-            printf("\e[1;1H\e[2J");                 //Clear screen
-            PutString("Temperature: ");
-            PutInt(Temp);
-            PutStringn(" ºC");
-            /*
-            switch(choice){
-                case 0:
-                    PutStringn("-----MENU----");
-                    PutStringn("1-Show PID weights");
-                    PutStringn("2-Input Desired Temp");  
-                    PutString("Choice: ");
-                    break;
-                case 2:
-                    PutString("Desired Temperature: ");
-                
-                    break;
-                case 3:
-                    break;
-                default:
-                    break;
-                };
-            //Read Input User Value
-            UserInput=GetInteger();
-            if(UserInput != 10){
-                Value=Value+UserInput*10;
-                PutInt(Value);
+        if(GetIntFlagTimer1()==1){
+            DefaultMenu(Temp);
+            Menu(choice,Value);
+            PORTAbits.RA3 != PORTAbits.RA3;
+            ClearIntFlagTimer1();
+        }
+        //Read Input User Value
+        UserInput=GetInteger();
+        switch(UserInput){
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                Value=Value*10+UserInput;
+                break;
+            case 10:
+                Total=Value;
+        };  
+
+        if(Total>0){
+            if(OptionChoice==1){
+                choice=Total;
             }
             else{
-                if(OptionChoice==1){
-                   choice=Value;
-                }
-                else{
-                    switch(DesiredLoc){         // Case for the desired location of the user value.
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
-                        default:
-                            break;
-                   };
-                }
-                Value=0;            //Reset Input Value for next read.
-            }*/
-            IFS0bits.T1IF=0;
+                switch(DesiredLoc){         // Case for the desired location of the user value.
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        break;
+                };
+            }
+            Value=0;            //Reset Input Value for next read.
+            Total=-1;
         }
-    }
+        }
     return 0;
 }

@@ -10,6 +10,7 @@
       <itemPath>sys_config.h</itemPath>
       <itemPath>timer.h</itemPath>
       <itemPath>uart.h</itemPath>
+      <itemPath>../TEST/TEST.X/menu.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -28,10 +29,12 @@
       <itemPath>pwm.c</itemPath>
       <itemPath>timer.c</itemPath>
       <itemPath>uart.c</itemPath>
+      <itemPath>../TEST/TEST.X/menu.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
     <Elem>.</Elem>
+    <Elem>../TEST/TEST.X</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -212,6 +215,9 @@
         <property key="stack-smashing" value=""/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
+      <PK3OBPlatformTool>
+        <property key="firmware.download.all" value="false"/>
+      </PK3OBPlatformTool>
     </conf>
   </confs>
 </configurationDescriptor>

@@ -10,6 +10,7 @@
             <make-dep-projects/>
             <sourceRootList>
                 <sourceRootElem>.</sourceRootElem>
+                <sourceRootElem>../TEST/TEST.X</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
