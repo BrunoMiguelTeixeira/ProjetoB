@@ -2,9 +2,9 @@
 #define __MENU_H__
 
 #include <xc.h>
-void DefaultMenu(uint8_t temp);
+void DefaultMenu(uint16_t temp);
 
-void Menu(uint8_t option,int Value);
+void Menu(uint8_t option, int value);
 
 
 #endif

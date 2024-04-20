@@ -25,9 +25,12 @@ void ConfigTimer1(uint32_t targetFreq){
     uint32_t fout_presc = 0;
 
     T1CON = 0;                      // Clear Timer 1 configuration
-    IFS0bits.T1IF = 0;          // Clear Timer 1 interrupt flag
-    IPC1bits.T1IP = 5;          // Set Timer 1 interrupt priority
-    IEC0bits.T1IE = 0;          // Enable Timer 1 interrupt
+
+    // Interrupt configuration
+    IFS0bits.T1IF = 0;              // Clear Timer 1 interrupt flag
+    IPC1bits.T1IP = 5;              // Set Timer 1 interrupt priority
+    IEC0bits.T1IE = 0;              // Enable Timer 1 interrupt
+
     // ----- Automatic calculation of the values for the Timer 1 configuration -----
     prescaler = PBCLOCK / ((65535+1) * targetFreq); // Calculate the prescaler value
 
@@ -78,6 +81,8 @@ void ConfigTimer2(uint32_t targetFreq, uint8_t timer32bit){
 
     T2CON = 0;                  // Clear Timer 2 configuration
     T3CON = 0;                  // Stop any 16-bit Timer3 operation
+
+    // Interrupt configuration
     IFS0bits.T2IF = 0;          // Clear Timer 2 interrupt flag
     IPC2bits.T2IP = 5;          // Set Timer 2 interrupt priority
     IEC0bits.T2IE = 0;          // Enable Timer 2 interrupt
@@ -143,10 +148,12 @@ void ConfigTimer3(uint32_t targetFreq){
     uint16_t prescaler = 0;
     uint32_t fout_presc = 0;
 
-    T3CON = 0;                  // Clear Timer 3 configuration
+    T3CON = 0;                  // Clear Timer 3 configuration~
+
+    // Interrupt configuration
     IFS0bits.T3IF = 0;          // Clear Timer 3 interrupt flag
     IPC3bits.T3IP = 5;          // Set Timer 3 interrupt priority
-    IEC0bits.T3IE = 0;          // Enable Timer 3 interrupt
+    IEC0bits.T3IE = 1;          // Enable Timer 3 interrupt
 
     // ----- Automatic calculation of the values for the Timer 3 configuration -----
     prescaler = PBCLOCK / ((65535+1) * targetFreq); // Calculate the prescaler value
@@ -201,6 +208,8 @@ void ConfigTimer4(uint32_t targetFreq, uint8_t timer32bit){
 
     T4CON = 0;                  // Clear Timer 4 configuration
     T5CON = 0;                  // Stop any 16-bit Timer5 operation
+
+    // Interrupt configuration
     IFS0bits.T4IF = 0;          // Clear Timer 4 interrupt flag
     IPC4bits.T4IP = 5;          // Set Timer 4 interrupt priority
     IEC0bits.T4IE = 0;          // Enable Timer 4 interrupt
@@ -263,6 +272,8 @@ void ConfigTimer5(uint32_t targetFreq){
     uint32_t fout_presc = 0;
 
     T5CON = 0;                  // Clear Timer 5 configuration
+
+    // Interrupt configuration
     IFS0bits.T5IF = 0;          // Clear Timer 5 interrupt flag
     IPC5bits.T5IP = 5;          // Set Timer 5 interrupt priority
     IEC0bits.T5IE = 0;          // Enable Timer 5 interrupt

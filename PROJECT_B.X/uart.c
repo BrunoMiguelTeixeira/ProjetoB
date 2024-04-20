@@ -165,8 +165,8 @@ void PutInt(int Integer){
 }
 void PutIntn(int Integer){
     PutInt(Integer);
-    PutChar("\r");
-    PutChar("\n");
+    PutChar('\r');
+    PutChar('\n');
 }
 /*******************************************************************
  * Function: PutFloat()
@@ -191,12 +191,43 @@ uint8_t GetInteger(void){
     uint8_t dummy;
     uint8_t value;
     if(GetChar(&dummy) == UART_SUCCESS){        
-        if(dummy==13){//Enter pressed
+        if(dummy == 13){//Enter pressed
             return 10;
         }
-        if(dummy!=194 & 10>dummy-'0'>-1){
-            value= dummy-'0';
+        if(dummy!=194 & (10 > dummy-'0' > -1)){
+            value= dummy - '0';
             return value;
+        }
+    }
+}
+
+
+// Function to get a string from the user, and return it as an array of chars
+char* GetString(void){
+    
+    char* string = (char*)malloc(20*sizeof(char));
+
+    uint8_t dummy;
+    uint8_t i = 0;
+    while(1){
+        if(GetChar(&dummy) == UART_SUCCESS){
+            if(dummy == 13){//Enter pressed
+                string[i] = '\0';
+                PutChar('\r');
+                PutChar('\n');
+                return string;
+            }
+            if(dummy != 194 & dummy != 8){
+                PutChar(dummy);
+                string[i] = dummy;
+                i++;
+            }
+            if(dummy == 8){
+                PutChar(8);
+                PutChar(' ');
+                PutChar(8);
+                i--;
+            }
         }
     }
 }
