@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c adc.c pwm.c timer.c uart.c menu.c pid.c thermo_k.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c adc.c pwm.c timer.c uart.c menu.c thermo_k.c pi.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/menu.o ${OBJECTDIR}/pid.o ${OBJECTDIR}/thermo_k.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/pwm.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/uart.o.d ${OBJECTDIR}/menu.o.d ${OBJECTDIR}/pid.o.d ${OBJECTDIR}/thermo_k.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/menu.o ${OBJECTDIR}/thermo_k.o ${OBJECTDIR}/pi.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/pwm.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/uart.o.d ${OBJECTDIR}/menu.o.d ${OBJECTDIR}/thermo_k.o.d ${OBJECTDIR}/pi.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/menu.o ${OBJECTDIR}/pid.o ${OBJECTDIR}/thermo_k.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/menu.o ${OBJECTDIR}/thermo_k.o ${OBJECTDIR}/pi.o
 
 # Source Files
-SOURCEFILES=main.c adc.c pwm.c timer.c uart.c menu.c pid.c thermo_k.c
+SOURCEFILES=main.c adc.c pwm.c timer.c uart.c menu.c thermo_k.c pi.c
 
 
 
@@ -137,17 +137,17 @@ ${OBJECTDIR}/menu.o: menu.c  .generated_files/flags/default/290c763840860b12a608
 	@${RM} ${OBJECTDIR}/menu.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/menu.o.d" -o ${OBJECTDIR}/menu.o menu.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
-${OBJECTDIR}/pid.o: pid.c  .generated_files/flags/default/74b6534b256393c9e1da714345a23ad37ce25be4 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/pid.o.d 
-	@${RM} ${OBJECTDIR}/pid.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/pid.o.d" -o ${OBJECTDIR}/pid.o pid.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
-	
 ${OBJECTDIR}/thermo_k.o: thermo_k.c  .generated_files/flags/default/3ab2c164e45f97670309034a1d1eafe4a3b2e106 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/thermo_k.o.d 
 	@${RM} ${OBJECTDIR}/thermo_k.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/thermo_k.o.d" -o ${OBJECTDIR}/thermo_k.o thermo_k.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	
+${OBJECTDIR}/pi.o: pi.c  .generated_files/flags/default/573e5e0799ae0db852c5bc742783b2ba3ba5ab0d .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/pi.o.d 
+	@${RM} ${OBJECTDIR}/pi.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/pi.o.d" -o ${OBJECTDIR}/pi.o pi.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
 else
 ${OBJECTDIR}/main.o: main.c  .generated_files/flags/default/3fc78e6336fc8f0ca40b8760a091585cf40fd90a .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
@@ -186,17 +186,17 @@ ${OBJECTDIR}/menu.o: menu.c  .generated_files/flags/default/a42c84dbca623653945b
 	@${RM} ${OBJECTDIR}/menu.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/menu.o.d" -o ${OBJECTDIR}/menu.o menu.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
-${OBJECTDIR}/pid.o: pid.c  .generated_files/flags/default/eed6193b2e0e33b100aea3c8913f42db7947eee2 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/pid.o.d 
-	@${RM} ${OBJECTDIR}/pid.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/pid.o.d" -o ${OBJECTDIR}/pid.o pid.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
-	
 ${OBJECTDIR}/thermo_k.o: thermo_k.c  .generated_files/flags/default/f6b0ed40316db7f2c1c6ea80cc1417f469ab3b74 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/thermo_k.o.d 
 	@${RM} ${OBJECTDIR}/thermo_k.o 
 	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/thermo_k.o.d" -o ${OBJECTDIR}/thermo_k.o thermo_k.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
+	
+${OBJECTDIR}/pi.o: pi.c  .generated_files/flags/default/10181aca598d78e762fb52461de2542b2e8d43fa .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/pi.o.d 
+	@${RM} ${OBJECTDIR}/pi.o 
+	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -fno-common -MP -MMD -MF "${OBJECTDIR}/pi.o.d" -o ${OBJECTDIR}/pi.o pi.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  
 	
 endif
 

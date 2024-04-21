@@ -5,15 +5,19 @@
 #include <xc.h>
 #include <stdio.h>
 
-void DefaultMenu(uint16_t temp){
+void DefaultMenu(uint16_t temp, uint8_t minTemp, uint8_t maxTemp){
     PutString("\e[1;1H\e[2J");  //Clear screen  
     PutString("\e[33m");        // Make the letters yellow
     
     PutString("Temperature: ");
     PutInt(temp);
-    PutStringn(" ºC");
-
-    PutString("\e[0m");         // Reset to default color (white)
+    PutString(" ºC");
+    
+    PutString("\t| Min: ");
+    PutInt(minTemp);
+    PutString("\t| Max: ");
+    PutInt(maxTemp);
+    PutStringn("\e[0m");         // Reset to default color (white)
 }
 
 /*

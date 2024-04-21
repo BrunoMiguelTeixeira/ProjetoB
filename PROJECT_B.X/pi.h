@@ -1,15 +1,11 @@
-#ifndef __PID_H__
-#define __PID_H__
+#ifndef __PI_H__
+#define __PI_H__
 
 typedef struct {
     
 	/* Controller Gains */
     float kp; 				/**< Proportional Gain */
     float ki; 				/**< Integral Gain */
-	float kd; 				/**< Derivative Gain */
-
-    /* Derivative Low-Pass Filter */
-	float tau; 				/**< Derivative Low-Pass Filter Time Constant */
 
 	/* Controller Output Limits */
 	float minLimit; 		/**< Minimum Output Limit */
@@ -19,17 +15,16 @@ typedef struct {
 	float Ts; 				/**< Sample Time */
 
 	/* Controller Variables */
-	float diff 				/**< Differentiator */;
 	float integrator; 		/**< Integrator */
 	float prevError; 		/**< Previous Error */
 	float prevMeasurement; 	/**< Previous Measurement */
 
 	float out; 			/**< Controller Output */		
 	
-} PID;
+} PI;
 
-void PID_Init(PID *pid);
-float PID_Update(PID *pid, float setPoint, float measurement);
+void PI_Init(PI *pi);
+float PI_Update(PI *pi, float setPoint, float measurement);
 
-#endif // PID_H
+#endif // PI_H
 

@@ -4,9 +4,9 @@
 
 /* Analog to Digital section: */
 
-#define ADC_CHAN_THERMIC 14       /**< ADC channel for thermistor (0 to 15)  */
-#define ADC_CHAN_THERMO 15        /**< ADC channel for thermocouple (0 to 15) */
-#define SAMPL_FREQ_HZ 10       /**< Sampling frequency, in Hz              */
+#define ADC_CHAN_THERMIC 14     /**< ADC channel for thermistor (0 to 15)  */
+#define ADC_CHAN_THERMO 15      /**< ADC channel for thermocouple (0 to 15) */
+#define SAMPL_FREQ_HZ 10        /**< Sampling frequency, in Hz              */
 
 /* PWM section: */
 #define PWM_OC_CHAN 1           /**< PWM output compare channel (1 to 5)    */

@@ -9,6 +9,7 @@
 #include <xc.h>
 #include <stdio.h>
 #include "thermo_k.h"
+#include "pi.h"
 
 
 /* GLOBAL VARIABLES FOR THE INTERRUPTS */
@@ -16,13 +17,16 @@ volatile float val;                 /**< Variable to hold the value read by the 
 volatile uint8_t dutyCycle;         /**< Variable to hold the duty cycle of the PWM. */ 
 volatile uint8_t choice = 0;        /**< Variable to hold the user's choice. */
 volatile uint8_t value = 0;         /**< Variable to hold the sequence of numbers. */
-volatile uint8_t minTempRead = 0;   /**< Minimum temperature read by the sensor on a x period of time. */
+volatile uint8_t minTempRead = 100; /**< Minimum temperature read by the sensor on a x period of time. */
 volatile uint8_t maxTempRead = 0;   /**< Maximum temperature read by the sensor. */
 volatile int temp_thermo = 0;       /**< Variable to hold the temperature read by the thermocouple. */
-volatile int temp = 10;             /**< Variable to hold the temperature value of the thermistor. */
+volatile int temp_thermi = 0;
+volatile int temp = 0;             /**< Variable to hold the temperature value of the thermistor. */
 volatile int total_temp = 0;        /**< Variable to hold the total temperature value. */
+volatile uint8_t piEn = 0;          /**< Variable to enable the PI controller. */
+PI pi;
 
-uint8_t ocChannel = 3;
+volatile uint8_t ocChannel = 1;
 
 void delay_ms(int ms){
     for(int i = 0; i < ms; i++){
@@ -31,9 +35,20 @@ void delay_ms(int ms){
 }
 
 /* INTERRUPT CALLBACK PWM, OUTPUT DESIRED DUTY-CYCLE  */
-void __ISR (_TIMER_2_VECTOR, IPL6SRS) T2Interrupt(void)
+void __ISR (_TIMER_2_VECTOR, IPL5SOFT) T2Interrupt(void)
 {
-    dutyCycle = (val * 100) / 1023;
+    if(piEn == 1){
+        // Update the PI controller (PID)
+        float y = PI_Update(&pi, temp, total_temp);
+
+        // Normalize the value to a 0-100% range
+        float x = (y - 45) / 50;
+        dutyCycle = x * 100;
+    }
+    else{
+        dutyCycle = 5;
+    }
+
     ConfigDutyCycle(ocChannel, dutyCycle);
     ClearIntFlagTimer2();
 }
@@ -81,9 +96,17 @@ void __ISR (_TIMER_3_VECTOR, IPL5SOFT) T3Interrupt(void)
 
     // Conversion to Celsius (Using the linear approximation of the thermistor)
     val = (val/1000) / 0.060445;
-    temp = val;
+    temp_thermi = val;
 
-    total_temp = temp + temp_thermo;
+    total_temp = temp_thermi + temp_thermo;
+
+    if(total_temp > maxTempRead){
+        maxTempRead = total_temp;
+    }
+
+    if(total_temp < minTempRead){
+        minTempRead = total_temp;
+    }
     
     IFS1bits.AD1IF = 0; // Reset interrupt ADC
     ClearIntFlagTimer3();
@@ -130,53 +153,33 @@ int main(void){
     ConfigPWM(ocChannel,2,50);      // OCx, Timer2, 50% duty cycle
     /* ------------------------------------------------ */
 
+    /* ------------------ SETUP PID ------------------- */
+    PI_Init(&pi);
+
+    pi.kp = 10;
+    pi.ki = 0.6;
+    pi.Ts = 1.0/PWM_FREQ_HZ;
+
     /* ------------------ VARIABLES ------------------- */            
     
     uint8_t userInput;              // Variable to hold the input integer.                
     int total = -1;
     uint8_t optionChoice = 1;       // Variable to identify if its to write a menu choice or value
     uint8_t desiredLoc;             // Variable to identify which allowed variable the user wants to alter.
+    /* ------------------------------------------------ */
+
 
     PutStringn("Start!");
     
     while(1){        
         
-        /*
-        if(GetIntFlagTimer3()){
-            // Read the value from the ADC
-            val = 0;
-            ADC_start();
-            while(ADC_IF() == 0);
-            val = ADC_read();
-
-            // Conversion to Millivolts
-            val = (val*3300) / 1023;
-
-            // Find the closest value in the array
-            int min = 1000;
-            int min_index = 0;
-            for(int i = 0; i < 151; i++){
-                if(abs(val - therm_amp[i]) < min){
-                    min = abs(val - therm_amp[i]);
-                    min_index = i;
-                }
-            }
-
-            temp_therm = min_index;
-
-            IFS1bits.AD1IF = 0; // Reset interrupt ADC
-            ClearIntFlagTimer3();
-        }
-        */
-        
+        // Timer 4 & 5 (32bit mode) to print the menu (Polling Method)
         if(GetIntFlagTimer5()){
-            DefaultMenu(total_temp);      // Print the default menu (Temp)
+            DefaultMenu(total_temp, minTempRead, maxTempRead);      // Print the default menu (Temp)
             Menu(choice, value);                // Print the menu with the choice and value 
             PORTCbits.RC1 = !PORTCbits.RC1;     // Toggle LED to see the timer's timing
             ClearIntFlagTimer5();
         }
-        
-        
         
         // Read Input User value
         userInput = GetInteger();
@@ -200,11 +203,16 @@ int main(void){
                 value = 0;
                 optionChoice = 0;
             }else{
-                // The user has entered a value; Check the value to print
                 switch(choice){
                     case 1:
                         if(total >= MIN_DESIRED_TEMP && total <= MAX_DESIRED_TEMP){
                             temp = total;
+                            piEn = 1;
+                        }
+                        else if(total = 0){
+                            temp = 0;
+                            piEn = 0;
+                            PutStringn("\n\n\rPID Controller Disabled! - 0ºC Setpoint");
                         }
                         else{
                             PutString("\e[0m");     // Reset to default color (white)
@@ -221,12 +229,13 @@ int main(void){
 
                             PutString("\e[0m");     // Reset to default color (white)
                             PutStringn(") ºC");
-
+                            PutStringn(" (Disabled PID Controller)");
+                            temp = 0;
+                            piEn = 0;
                             delay_ms(2000);
                         }
                         break;
                     case 2:
-
                         break;
                     case 3:
                         PutStringn("Resetting values...");

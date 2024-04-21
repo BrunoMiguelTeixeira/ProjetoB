@@ -85,7 +85,7 @@ void ConfigTimer2(uint32_t targetFreq, uint8_t timer32bit){
     // Interrupt configuration
     IFS0bits.T2IF = 0;          // Clear Timer 2 interrupt flag
     IPC2bits.T2IP = 5;          // Set Timer 2 interrupt priority
-    IEC0bits.T2IE = 0;          // Enable Timer 2 interrupt
+    IEC0bits.T2IE = 1;          // Enable Timer 2 interrupt
 
     if(timer32bit == 1){
         T2CONbits.T32 = 1;          // Enable 32-bit Timer 2 operation
