@@ -177,14 +177,17 @@ void PutIntn(int Integer){
  * Overview:    Splits Float into two integers to be printed has a char and into UART tx reg for transmission.
  * Note:        None
  *******************************************************************/
-void PutFloat(float Float,uint8_t val){
-    if(val<1){
-        PutStringn("ERR FLOAT SIZE");
-    }
-    PutInt((int) Float);
-    Float=(Float-(int)Float)*10*val;
+void PutFloat(float Float,uint8_t decimals){
+    int Integer = (int)Float;
+    PutInt(Integer);
     PutChar('.');
-    PutInt((int)Float);
+    Float = Float - Integer;
+    for(uint8_t i = 0; i < decimals; i++){
+        Float = Float*10;
+        Integer = (int)Float;
+        PutInt(Integer);
+        Float = Float - Integer;
+    }
 }
 
 uint8_t GetInteger(void){

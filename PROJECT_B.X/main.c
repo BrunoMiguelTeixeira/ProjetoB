@@ -20,14 +20,24 @@ volatile uint8_t value = 0;         /**< Variable to hold the sequence of number
 volatile uint8_t minTempRead = 100; /**< Minimum temperature read by the sensor on a x period of time. */
 volatile uint8_t maxTempRead = 0;   /**< Maximum temperature read by the sensor. */
 volatile int temp_thermo = 0;       /**< Variable to hold the temperature read by the thermocouple. */
-volatile int temp_thermi = 0;
-volatile int temp = 0;             /**< Variable to hold the temperature value of the thermistor. */
+volatile int temp_thermi = 0;       /**< Variable to hold the temperature read by the thermistor. */
+volatile int temp = 0;              /**< Variable to hold the temperature value desired. */
 volatile int total_temp = 0;        /**< Variable to hold the total temperature value. */
 volatile uint8_t piEn = 0;          /**< Variable to enable the PI controller. */
+volatile uint8_t ocChannel = 1;     /**< Variable to hold the output compare channel. */
+volatile uint32_t time_uc;          /**< Variable to hold the microcontroller's time. */
 PI pi;
 
-volatile uint8_t ocChannel = 1;
+/* FUNCTION TO READ THE MICROCONTROLLER'S TIME */
+/* 
+uint32_t ReadCoreTimer(void){
+    volatile uint32_t value;
+    asm volatile("mfc0 %0,$9" : "=r"(value));
+    return value;
+} 
+*/
 
+/* FUNCTION TO DELAY IN MILLISECONDS */
 void delay_ms(int ms){
     for(int i = 0; i < ms; i++){
         for(int j = 0; j < 1000; j++);
@@ -46,7 +56,7 @@ void __ISR (_TIMER_2_VECTOR, IPL5SOFT) T2Interrupt(void)
         dutyCycle = x * 100;
     }
     else{
-        dutyCycle = 5;
+        dutyCycle = 0;
     }
 
     ConfigDutyCycle(ocChannel, dutyCycle);
@@ -77,6 +87,7 @@ void __ISR (_TIMER_3_VECTOR, IPL5SOFT) T3Interrupt(void)
         }
     }
     
+    // Rescale the value to the temperature
     temp_thermo = min_index - 10;
 
     if(temp_thermo < 0){
@@ -107,7 +118,7 @@ void __ISR (_TIMER_3_VECTOR, IPL5SOFT) T3Interrupt(void)
     if(total_temp < minTempRead){
         minTempRead = total_temp;
     }
-    
+
     IFS1bits.AD1IF = 0; // Reset interrupt ADC
     ClearIntFlagTimer3();
 }
@@ -156,8 +167,8 @@ int main(void){
     /* ------------------ SETUP PID ------------------- */
     PI_Init(&pi);
 
-    pi.kp = 10;
-    pi.ki = 0.6;
+    pi.kp = 8;
+    pi.ki = 0.7;
     pi.Ts = 1.0/PWM_FREQ_HZ;
 
     /* ------------------ VARIABLES ------------------- */            
@@ -166,17 +177,28 @@ int main(void){
     int total = -1;
     uint8_t optionChoice = 1;       // Variable to identify if its to write a menu choice or value
     uint8_t desiredLoc;             // Variable to identify which allowed variable the user wants to alter.
+    uint8_t k = 0;
     /* ------------------------------------------------ */
 
 
     PutStringn("Start!");
+    delay_ms(100);
     
+    // In case of a reset, send the end of frame to the script
+    PutStringn("downup");
+    delay_ms(100);
+
+    // Send the initial frame via UART, so the script can identify the start of the program
+    // to start the data collection (updown)
+    PutString("updown");
+
+
     while(1){        
         
         // Timer 4 & 5 (32bit mode) to print the menu (Polling Method)
         if(GetIntFlagTimer5()){
             DefaultMenu(total_temp, minTempRead, maxTempRead);      // Print the default menu (Temp)
-            Menu(choice, value);                // Print the menu with the choice and value 
+            Menu(choice, value, pi.kp, pi.ki);                // Print the menu with the choice and value 
             PORTCbits.RC1 = !PORTCbits.RC1;     // Toggle LED to see the timer's timing
             ClearIntFlagTimer5();
         }
@@ -205,14 +227,16 @@ int main(void){
             }else{
                 switch(choice){
                     case 1:
-                        if(total >= MIN_DESIRED_TEMP && total <= MAX_DESIRED_TEMP){
-                            temp = total;
-                            piEn = 1;
-                        }
-                        else if(total = 0){
+                        
+                        if(total == 0){
                             temp = 0;
                             piEn = 0;
                             PutStringn("\n\n\rPID Controller Disabled! - 0ºC Setpoint");
+                            delay_ms(2000);
+                        }
+                        else if(total >= MIN_DESIRED_TEMP && total <= MAX_DESIRED_TEMP){
+                            temp = total;
+                            piEn = 1;
                         }
                         else{
                             PutString("\e[0m");     // Reset to default color (white)
@@ -238,7 +262,6 @@ int main(void){
                     case 2:
                         break;
                     case 3:
-                        PutStringn("Resetting values...");
                         minTempRead = 0;
                         maxTempRead = 0;
                         break;

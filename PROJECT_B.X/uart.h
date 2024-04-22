@@ -36,7 +36,7 @@ void PutIntn(int Integer);
  * Overview: Puts the float has a char and into UART tx reg for transmission\n
  * Note: None\n
  */
-void PutFloat(float Float,uint8_t val);
+void PutFloat(float Float,uint8_t decimals);
 
 /**
 * Function: PutString()\n
