@@ -13,20 +13,22 @@
 
 
 /* GLOBAL VARIABLES FOR THE INTERRUPTS */
-volatile float val;                 /**< Variable to hold the value read by the ADC. */
-volatile uint8_t dutyCycle;         /**< Variable to hold the duty cycle of the PWM. */ 
-volatile uint8_t choice = 0;        /**< Variable to hold the user's choice. */
-volatile uint8_t value = 0;         /**< Variable to hold the sequence of numbers. */
-volatile uint8_t minTempRead = 100; /**< Minimum temperature read by the sensor on a x period of time. */
-volatile uint8_t maxTempRead = 0;   /**< Maximum temperature read by the sensor. */
-volatile int temp_thermo = 0;       /**< Variable to hold the temperature read by the thermocouple. */
-volatile int temp_thermi = 0;       /**< Variable to hold the temperature read by the thermistor. */
-volatile int temp = 0;              /**< Variable to hold the temperature value desired. */
-volatile int total_temp = 0;        /**< Variable to hold the total temperature value. */
-volatile uint8_t piEn = 0;          /**< Variable to enable the PI controller. */
-volatile uint8_t ocChannel = 1;     /**< Variable to hold the output compare channel. */
-volatile uint32_t time_uc;          /**< Variable to hold the microcontroller's time. */
-PI pi;
+volatile float val;                     /**< Variable to hold the value read by the ADC. */
+volatile uint8_t dutyCycle;             /**< Variable to hold the duty cycle of the PWM. */ 
+volatile uint8_t choice = 0;            /**< Variable to hold the user's choice. */
+volatile uint8_t value = 0;             /**< Variable to hold the sequence of numbers. */
+volatile uint8_t minTempRead = 100;     /**< Minimum temperature read by the sensor on a x period of time. */
+volatile uint8_t maxTempRead = 0;       /**< Maximum temperature read by the sensor. */
+volatile int temp_thermo = 0;           /**< Variable to hold the temperature read by the thermocouple. */
+volatile int temp_thermi = 0;           /**< Variable to hold the temperature read by the thermistor. */
+volatile int temp = 0;                  /**< Variable to hold the temperature value desired. */
+volatile int total_temp = 0;            /**< Variable to hold the total temperature value. */
+volatile uint8_t piEn = 0;              /**< Variable to enable the PI controller. */
+volatile uint8_t ocChannel = 1;         /**< Variable to hold the output compare channel. */
+volatile uint8_t ocChannelControl = 2;  /**< Variable to hold the output compare channel for the control. */
+volatile uint32_t time_uc;              /**< Variable to hold the microcontroller's time. */
+volatile float dutyCycleControl = 5;   // Variable to hold the duty cycle of the control.
+PI pi;                                  /**< PI controller structure. */                      
 
 /* FUNCTION TO READ THE MICROCONTROLLER'S TIME */
 /* 
@@ -161,7 +163,8 @@ int main(void){
     StartTimer3(); 
     StartTimer4();    
     
-    ConfigPWM(ocChannel,2,50);      // OCx, Timer2, 50% duty cycle
+    ConfigPWM(ocChannel,2,50);              // OCx, Timer2, 50% duty cycle
+    ConfigPWM(ocChannelControl,2,5);       // OCx, Timer2, 0% duty cycle
     /* ------------------------------------------------ */
 
     /* ------------------ SETUP PID ------------------- */
@@ -178,6 +181,7 @@ int main(void){
     uint8_t optionChoice = 1;       // Variable to identify if its to write a menu choice or value
     uint8_t desiredLoc;             // Variable to identify which allowed variable the user wants to alter.
     uint8_t k = 0;
+    
     /* ------------------------------------------------ */
 
 
@@ -195,6 +199,9 @@ int main(void){
 
     while(1){        
         
+        ConfigDutyCycle(ocChannelControl, dutyCycleControl);
+        
+
         // Timer 4 & 5 (32bit mode) to print the menu (Polling Method)
         if(GetIntFlagTimer5()){
             DefaultMenu(total_temp, minTempRead, maxTempRead);      // Print the default menu (Temp)
@@ -231,12 +238,21 @@ int main(void){
                         if(total == 0){
                             temp = 0;
                             piEn = 0;
+                            dutyCycleControl = 0;
                             PutStringn("\n\n\rPID Controller Disabled! - 0ºC Setpoint");
                             delay_ms(2000);
                         }
                         else if(total >= MIN_DESIRED_TEMP && total <= MAX_DESIRED_TEMP){
                             temp = total;
                             piEn = 1;
+                            dutyCycleControl = ((temp-45.0)/50.0) * 100.0;
+                            
+                            PutString("\n\n\rPID Controller Enabled! - ");
+                            PutInt(temp);
+                            PutString("ºC Setpoint");
+                            PutString("\n\rDuty Cycle Control: ");
+                            PutIntn(dutyCycleControl);
+                            delay_ms(2000);
                         }
                         else{
                             PutString("\e[0m");     // Reset to default color (white)
@@ -254,8 +270,11 @@ int main(void){
                             PutString("\e[0m");     // Reset to default color (white)
                             PutStringn(") ºC");
                             PutStringn(" (Disabled PID Controller)");
+                            
+                            dutyCycleControl = 0;
                             temp = 0;
                             piEn = 0;
+                            
                             delay_ms(2000);
                         }
                         break;
