@@ -163,7 +163,7 @@ int main(void){
     StartTimer3(); 
     StartTimer4();    
     
-    ConfigPWM(ocChannel,2,50);              // OCx, Timer2, 50% duty cycle
+    ConfigPWM(ocChannel,2,0);              // OCx, Timer2, 50% duty cycle
     ConfigPWM(ocChannelControl,2,5);       // OCx, Timer2, 0% duty cycle
     /* ------------------------------------------------ */
 
