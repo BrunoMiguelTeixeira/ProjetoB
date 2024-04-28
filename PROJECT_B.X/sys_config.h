@@ -1,3 +1,16 @@
+/*
+ * File: sys_config.h
+ *
+ * Sistemas de Instrumentação Electrónica - 2023/24
+ *
+ * Trabalho B
+ * 
+ * Autores:
+ * - Bruno Teixeira , NMec 98244
+ * - Goncalo Rodrigues, NMec 98322
+ *
+ */
+
 /*--- SYSTEM CLOCKS ---*/
 #define SYSCLK 80000000L        /**< System clock frequency, in Hz          */
 #define PBCLOCK 40000000L       /**< Peripheral Bus clock frequency, in Hz  */

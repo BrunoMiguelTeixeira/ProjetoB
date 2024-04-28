@@ -3,6 +3,17 @@
 #include <stdint.h>
 #include "pi.h"
 
+
+/*
+ * Contém código não original
+ *
+ *Código base para a construção do controlador deriva de código disponibilizado num video
+ *sobre controlador PID
+ * Autor:https://youtu.be/zOByx3Izf5U?si=p1CvpppLJgU8kiIW
+ *
+ */
+
+
 void PI_Init(PI *pi){
 	/* Set the limits */
 	pi->minLimit = 45.0f;
@@ -15,6 +26,7 @@ void PI_Init(PI *pi){
 
 	pi->out = 0;
 }
+
 
 float PI_Update(PI *pi, float setpoint, float measurement){
 

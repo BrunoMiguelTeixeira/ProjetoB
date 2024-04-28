@@ -1,5 +1,13 @@
 #pragma once
 
+/*
+ * Contém código não original
+ *
+ * Código fornecido para o setup correto do microcontrolador.
+ *
+ */
+
+
 // PIC32MX795F512L Configuration Bit Settings
 
 // #pragma config statements should precede project file includes.

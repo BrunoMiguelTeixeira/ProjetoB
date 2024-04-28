@@ -1,6 +1,19 @@
 #ifndef __UART_H__
 #define __UART_H__
 
+/*
+ * File: uart.h
+ *
+ * Sistemas de Instrumentação Electrónica - 2023/24
+ *
+ * Trabalho B
+ * 
+ * Autores:
+ * - Bruno Teixeira , NMec 98244
+ * - Goncalo Rodrigues, NMec 98322
+ *
+ */
+
 #include <stdint.h>
 
 // Define return codes

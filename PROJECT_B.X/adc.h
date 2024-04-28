@@ -1,6 +1,19 @@
 #ifndef __ADC_H__
 #define __ADC_H__
 
+/*
+ * File: adc.h
+ *
+ * Sistemas de Instrumentação Electrónica - 2023/24
+ *
+ * Trabalho B
+ * 
+ * Autores:
+ * - Bruno Teixeira , NMec 98244
+ * - Goncalo Rodrigues, NMec 98322
+ *
+ */
+
 
 typedef enum{AN0=0,AN1,AN2,AN3,AN4,AN5,AN6,AN7,AN8,AN9,AN10,AN11,AN12,AN13,AN14,AN15
 }ADCchannels;

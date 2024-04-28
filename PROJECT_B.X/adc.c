@@ -1,5 +1,18 @@
 #include <xc.h>
 
+/*
+ * File: uart.h
+ *
+ * Sistemas de Instrumentação Electrónica - 2023/24
+ *
+ * Trabalho B
+ * 
+ * Autores:
+ * - Bruno Teixeira , NMec 98244
+ * - Goncalo Rodrigues, NMec 98322
+ *
+ */
+
 void ADC_init(void){
     AD1CON1bits.SSRC = 7;   //Auto convert option
     AD1CON1bits.CLRASAM = 1;//Auto-Sample Start bit

@@ -4,6 +4,21 @@
 #include <xc.h>
 #include <stdio.h>
 
+/*
+ * File: uart.h
+ *
+ * Sistemas de Instrumentação Electrónica - 2023/24
+ *
+ * Trabalho B
+ * 
+ * Autores:
+ * - Bruno Teixeira , NMec 98244
+ * - Goncalo Rodrigues, NMec 98322
+ *
+ */
+
+
+
 int thermo_k_uv[151] = {
     -392, -353, -314, -275, -236, -197, -157, -118, -79, -39,       // -10 - 0
     0, 39, 79, 119, 158, 198, 238, 277, 317, 357, 397,              // 0 - 10    

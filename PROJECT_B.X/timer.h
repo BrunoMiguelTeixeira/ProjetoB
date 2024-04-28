@@ -1,3 +1,17 @@
+/*
+ * File: timer.h
+ *
+ * Sistemas de Instrumentação Electrónica - 2023/24
+ *
+ * Trabalho B
+ * 
+ * Autores:
+ * - Bruno Teixeira , NMec 98244
+ * - Goncalo Rodrigues, NMec 98322
+ *
+ */
+
+
 #include <xc.h>
 #include <stdint.h>
 

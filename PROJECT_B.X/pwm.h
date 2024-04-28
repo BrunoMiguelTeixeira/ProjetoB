@@ -3,6 +3,20 @@
 
 #ifndef PWM_H
 #define PWM_H
+/*
+ * File: pwm.h
+ *
+ * Sistemas de Instrumentação Electrónica - 2023/24
+ *
+ * Trabalho B
+ * 
+ * Autores:
+ * - Bruno Teixeira , NMec 98244
+ * - Goncalo Rodrigues, NMec 98322
+ *
+ */
+
+
 
 /**
  * PWM Configuration for OC1

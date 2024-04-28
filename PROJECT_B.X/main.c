@@ -1,3 +1,18 @@
+/*
+ * File: main.c
+ *
+ * Sistemas de Instrumentação Electrónica - 2023/24
+ *
+ * Trabalho B
+ * 
+ * Autores:
+ * - Bruno Teixeira , NMec 98244
+ * - Goncalo Rodrigues, NMec 98322
+ *
+ */
+
+
+
 #include "config_bits.h"
 #include "sys_config.h"
 #include "uart.h"

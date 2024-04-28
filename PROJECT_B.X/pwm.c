@@ -4,6 +4,20 @@
 #include <xc.h>
 #include <stdint.h>
 
+/*
+ * File: uart.h
+ *
+ * Sistemas de Instrumentação Electrónica - 2023/24
+ *
+ * Trabalho B
+ * 
+ * Autores:
+ * - Bruno Teixeira , NMec 98244
+ * - Goncalo Rodrigues, NMec 98322
+ *
+ */
+
+
 extern struct TimerConfig timer1;
 extern struct TimerConfig timer2;
 extern struct TimerConfig timer3;

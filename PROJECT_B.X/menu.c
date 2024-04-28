@@ -5,6 +5,20 @@
 #include <xc.h>
 #include <stdio.h>
 
+/*
+ * File: uart.h
+ *
+ * Sistemas de Instrumentação Electrónica - 2023/24
+ *
+ * Trabalho B
+ * 
+ * Autores:
+ * - Bruno Teixeira , NMec 98244
+ * - Goncalo Rodrigues, NMec 98322
+ *
+ */
+
+
 void DefaultMenu(uint16_t temp, uint8_t minTemp, uint8_t maxTemp){
     PutString("\e[1;1H\e[2J");  //Clear screen  
     PutString("\e[33m");        // Make the letters yellow
